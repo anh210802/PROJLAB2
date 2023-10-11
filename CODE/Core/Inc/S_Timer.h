@@ -11,8 +11,8 @@
 extern int timer1_flag = 0;
 extern int timer2_flag = 0;
 
-void setTimer1(duration);
-void setTimer2(duration);
+void setTimer1(int duration);
+void setTimer2(int duration);
 
 void timerRun();
 
