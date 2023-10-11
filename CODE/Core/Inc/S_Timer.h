@@ -9,8 +9,6 @@
 #define INC_S_TIMER_H_
 
 
-#include "S_Timer.h"
-
 extern int timer1_flag;
 extern int timer2_flag;
 
