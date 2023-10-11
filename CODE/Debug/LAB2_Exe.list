@@ -789,8 +789,8 @@ int main(void)
   setTimer1(100);
  8000646:	2064      	movs	r0, #100	; 0x64
  8000648:	f7ff fd80 	bl	800014c <setTimer1>
-  setTimer2(50);
- 800064c:	2032      	movs	r0, #50	; 0x32
+  setTimer2(100);
+ 800064c:	2064      	movs	r0, #100	; 0x64
  800064e:	f7ff fd91 	bl	8000174 <setTimer2>
   while (1)
   {
@@ -833,8 +833,8 @@ int main(void)
  8000690:	4b07      	ldr	r3, [pc, #28]	; (80006b0 <main+0x84>)
  8000692:	2200      	movs	r2, #0
  8000694:	601a      	str	r2, [r3, #0]
-		  setTimer2(50);
- 8000696:	2032      	movs	r0, #50	; 0x32
+		  setTimer2(100);
+ 8000696:	2064      	movs	r0, #100	; 0x64
  8000698:	f7ff fd6c 	bl	8000174 <setTimer2>
 	  if(timer1_flag == 1){
  800069c:	e7d9      	b.n	8000652 <main+0x26>
