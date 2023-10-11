@@ -915,7 +915,7 @@ int main(void)
 
   while (1)
   {
-    /* USER CODE END WHILE */
+
 	  if(timer1_flag == 1){
  800072e:	4b25      	ldr	r3, [pc, #148]	; (80007c4 <main+0xd0>)
  8000730:	681b      	ldr	r3, [r3, #0]
