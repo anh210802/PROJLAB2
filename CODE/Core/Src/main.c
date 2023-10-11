@@ -136,10 +136,12 @@ int main(void)
 			  HAL_GPIO_WritePin(GPIOA, EN3_Pin, GPIO_PIN_RESET);
 			  status = 0;
 			  break;
+		  default:
+			  break;
 		  }
+		  display7SEG(status);
 		  counter++;
 		  if (counter > 3) counter = 0;
-		  display7SEG(status);
 		  setTimer2(50);
 	  }
     /* USER CODE END WHILE */
