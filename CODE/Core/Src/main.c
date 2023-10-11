@@ -264,11 +264,6 @@ int main(void)
 		  updateClockBuffer(hour, minute);
 		  setTimer3(100);
 	  }
-	  if(timer2_flag == 1){
-	  		  update7SEG(index_led++);
-	  		  if(index_led > 3) index_led = 0;
-	  		  setTimer2(50);
-	  	  }
 
     /* USER CODE BEGIN 3 */
   }
