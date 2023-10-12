@@ -899,8 +899,8 @@ int main(void)
   setTimer1(100);
  8000710:	2064      	movs	r0, #100	; 0x64
  8000712:	f7ff fd1b 	bl	800014c <setTimer1>
-  setTimer2(50);
- 8000716:	2032      	movs	r0, #50	; 0x32
+  setTimer2(20);
+ 8000716:	2014      	movs	r0, #20
  8000718:	f7ff fd2c 	bl	8000174 <setTimer2>
   setTimer3(100);
  800071c:	2064      	movs	r0, #100	; 0x64
@@ -954,8 +954,8 @@ int main(void)
  800076c:	4b18      	ldr	r3, [pc, #96]	; (80007d0 <main+0xdc>)
  800076e:	2200      	movs	r2, #0
  8000770:	601a      	str	r2, [r3, #0]
-	  	  		  setTimer2(50);
- 8000772:	2032      	movs	r0, #50	; 0x32
+	  	  		  setTimer2(20);
+ 8000772:	2014      	movs	r0, #20
  8000774:	f7ff fcfe 	bl	8000174 <setTimer2>
 	  	  	  }
 	  if(timer3_flag == 1){
