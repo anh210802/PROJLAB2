@@ -61,32 +61,11 @@ int index_led_matrix = 0;
 uint8_t matrix_buffer [8] = {0x01 , 0x02 , 0x03 , 0x04 , 0x05 , 0x06 , 0x07 , 0x08 };
 void updateLEDMatrix(int index){
 	switch(index){
-	case 1:
-
-		break;
-	case 2:
-
-		break;
-	case 3:
-
-		break;
-	case 4:
-
-		break;
-	case 5:
-
-		break;
-	case 6:
-
-		break;
-	case 7:
-
-		break;
-	default:
+	case 0:
+		HAL_GPIO_WritePin(GPIOB, ROW0_Pin, GPIO_PIN_SET);
 		break;
 	}
 }
-
 /* USER CODE END 0 */
 
 /**
@@ -124,7 +103,7 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  setTimer1(100);
+  setTimer1(10);
 
   while (1)
   {
@@ -133,7 +112,7 @@ int main(void)
 		  updateLEDMatrix(index_led_matrix);
 		  index_led_matrix++;
 		  if(index_led_matrix > 7) index_led_matrix = 0;
-		  setTimer1(100);
+		  setTimer1(10);
 	  }
     /* USER CODE BEGIN 3 */
   }
