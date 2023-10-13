@@ -181,7 +181,7 @@ int main(void)
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   setTimer1(1);
-
+  setTimer2(100);
   while (1)
   {
     /* USER CODE END WHILE */
@@ -191,6 +191,9 @@ int main(void)
 		  index_led_matrix++;
 		  if(index_led_matrix > 7) index_led_matrix = 0;
 		  setTimer1(1);
+	  }
+	  if(timer2_flag == 1){
+		  clearLEDMatrix();
 	  }
     /* USER CODE BEGIN 3 */
   }
