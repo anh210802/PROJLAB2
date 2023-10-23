@@ -106,41 +106,45 @@ void displayRowLEDMatrix(uint8_t status){
 		}
 }
 void updateLEDMatrix(int index){
-	switch(index){
-	case 0:
-		HAL_GPIO_WritePin(GPIOA, ENM0_Pin, GPIO_PIN_RESET);
-		displayRowLEDMatrix(matrix_buffer[0]);
-		break;
-	case 1:
-		HAL_GPIO_WritePin(GPIOA, ENM1_Pin, GPIO_PIN_RESET);
-		displayRowLEDMatrix(matrix_buffer[1]);
-		break;
-	case 2:
-		HAL_GPIO_WritePin(GPIOA, ENM2_Pin, GPIO_PIN_RESET);
-		displayRowLEDMatrix(matrix_buffer[2]);
-		break;
-	case 3:
-		HAL_GPIO_WritePin(GPIOA, ENM3_Pin, GPIO_PIN_RESET);
-		displayRowLEDMatrix(matrix_buffer[3]);
-		break;
-	case 4:
-		HAL_GPIO_WritePin(GPIOA, ENM4_Pin, GPIO_PIN_RESET);
-		displayRowLEDMatrix(matrix_buffer[4]);
-		break;
-	case 5:
-		HAL_GPIO_WritePin(GPIOA, ENM5_Pin, GPIO_PIN_RESET);
-		displayRowLEDMatrix(matrix_buffer[5]);
-		break;
-	case 6:
-		HAL_GPIO_WritePin(GPIOA, ENM6_Pin, GPIO_PIN_RESET);
-		displayRowLEDMatrix(matrix_buffer[6]);
-		break;
-	case 7:
-		HAL_GPIO_WritePin(GPIOA, ENM7_Pin, GPIO_PIN_RESET);
-		displayRowLEDMatrix(matrix_buffer[7]);
-		break;
-	default:
-		break;
+	for(int i = 0; i < 8; i++){
+		if(i == index){
+			switch(i){
+				case 0:
+					HAL_GPIO_WritePin(GPIOA, ENM0_Pin, GPIO_PIN_RESET);
+					displayRowLEDMatrix(matrix_buffer[index]);
+					break;
+				case 1:
+					HAL_GPIO_WritePin(GPIOA, ENM1_Pin, GPIO_PIN_RESET);
+					displayRowLEDMatrix(matrix_buffer[index]);
+					break;
+				case 2:
+					HAL_GPIO_WritePin(GPIOA, ENM2_Pin, GPIO_PIN_RESET);
+					displayRowLEDMatrix(matrix_buffer[index]);
+					break;
+				case 3:
+					HAL_GPIO_WritePin(GPIOA, ENM3_Pin, GPIO_PIN_RESET);
+					displayRowLEDMatrix(matrix_buffer[index]);
+					break;
+				case 4:
+					HAL_GPIO_WritePin(GPIOA, ENM4_Pin, GPIO_PIN_RESET);
+					displayRowLEDMatrix(matrix_buffer[index]);
+					break;
+				case 5:
+					HAL_GPIO_WritePin(GPIOA, ENM5_Pin, GPIO_PIN_RESET);
+					displayRowLEDMatrix(matrix_buffer[index]);
+					break;
+				case 6:
+					HAL_GPIO_WritePin(GPIOA, ENM6_Pin, GPIO_PIN_RESET);
+					displayRowLEDMatrix(matrix_buffer[index]);
+					break;
+				case 7:
+					HAL_GPIO_WritePin(GPIOA, ENM7_Pin, GPIO_PIN_RESET);
+					displayRowLEDMatrix(matrix_buffer[index]);
+					break;
+				default:
+					break;
+					}
+		}
 	}
 }
 /* USER CODE END 0 */
@@ -187,13 +191,13 @@ int main(void)
     /* USER CODE END WHILE */
 	  if(timer1_flag == 1){
 		  clearLEDMatrix();
-		  updateLEDMatrix(index_led_matrix);
-		  index_led_matrix++;
+		  updateLEDMatrix(index_led_matrix++);
 		  if(index_led_matrix > 7) index_led_matrix = 0;
 		  setTimer1(1);
 	  }
 	  if(timer2_flag == 1){
-		  clearLEDMatrix();
+		  index_led_matrix--;
+		  setTimer2(100);
 	  }
     /* USER CODE BEGIN 3 */
   }
