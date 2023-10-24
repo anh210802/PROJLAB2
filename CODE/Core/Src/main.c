@@ -22,7 +22,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "S_Timer.h"
+
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -232,24 +232,11 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  setTimer1(100); // set timer1 have T = 10ns and counter = 100
-  setTimer2(50); //set timer2 have T = 10ns and counter = 50
+
   while (1)
   {
     /* USER CODE END WHILE */
-	  /*set GPIO for DOT
-	   * T of DOT is 1s*/
-	  if(timer1_flag == 1){
-		  HAL_GPIO_TogglePin(GPIOA, DOT_Pin);
-		  HAL_GPIO_TogglePin(GPIOA, LED_RED_Pin);
-		  setTimer1(100);
-	  }
-	  /*T of transistors is 500ns*/
-	  if(timer2_flag == 1){
-		  update7SEG(index_led++);
-		  if(index_led > 3) index_led = 0;
-		  setTimer2(50);
-	  }
+
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
@@ -377,8 +364,30 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
+int timer1_counter = 100; //set timer1 have T = 10ns and counter = 100
+int timer2_counter = 50; //set timer2 have T = 10ns and counter = 50
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
-	timerRun();
+	if(timer1_counter > 0){
+		timer1_counter--;
+		if(timer1_counter <= 0){
+			timer1_counter = 100;
+			//TODO
+			/* set GPIO for DOT
+			 * T of DOT is 1s
+			 */
+			HAL_GPIO_TogglePin(GPIOA, DOT_Pin);
+		}
+	}
+	if(timer2_counter > 0){
+		timer2_counter--;
+		if(timer2_counter <= 0){
+			timer2_counter = 50;
+			//TODO
+			/*T of transistors is 500ns*/
+			update7SEG(index_led++);
+			if(index_led > 3) index_led = 0;
+		}
+	}
 }
 /* USER CODE END 4 */
 
