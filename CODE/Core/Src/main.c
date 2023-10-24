@@ -22,7 +22,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "S_Timer.h" // call to library of timer
+
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -189,65 +189,12 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  setTimer1(100); //set timer1 with T = 10s and counter = 100
-  setTimer2(50); //set timer2 with T = 10s and conter = 50
-  int counter_trans = 0; // set counter for transistor
-  int status;
+
   while (1)
   {
 	  /* USER CODE END WHILE */
-	  /*set GPIO for DOT
-	   *set DOT turn on 1s -> counter of timer is 100
-	   */
-	  if (timer1_flag == 1){
-		  HAL_GPIO_TogglePin(GPIOA, DOT_Pin);
-		  HAL_GPIO_TogglePin(GPIOA, LED_RED_Pin);
-		  setTimer1(100);
-	  }
-	  /*set GPIO for transistor
-	   *counter_trans = 1 -> LED7SEG1 turn on
-	   *counter_trans = 2 -> LED7SEG2 turn on
-	   *counter_trans = 3 -> LED7SEG3 turn on
-	   *counter_trans = 4 -> LED7SEG4 turn on
-	   *set a LED7SEG turn on on 500ns -> counter of timer = 50 */
-	  if (timer2_flag == 1){
-		  switch(counter_trans){
-		  case 0:
-			  HAL_GPIO_WritePin(GPIOA, EN0_Pin, GPIO_PIN_RESET);
-			  HAL_GPIO_WritePin(GPIOA, EN1_Pin, GPIO_PIN_SET);
-			  HAL_GPIO_WritePin(GPIOA, EN2_Pin, GPIO_PIN_SET);
-			  HAL_GPIO_WritePin(GPIOA, EN3_Pin, GPIO_PIN_SET);
-			  status = 1;
-			  break;
-		  case 1:
-			  HAL_GPIO_WritePin(GPIOA, EN0_Pin, GPIO_PIN_SET);
-			  HAL_GPIO_WritePin(GPIOA, EN1_Pin, GPIO_PIN_RESET);
-			  HAL_GPIO_WritePin(GPIOA, EN2_Pin, GPIO_PIN_SET);
-			  HAL_GPIO_WritePin(GPIOA, EN3_Pin, GPIO_PIN_SET);
-			  status = 2;
-			  break;
-		  case 2:
-			  HAL_GPIO_WritePin(GPIOA, EN0_Pin, GPIO_PIN_SET);
-			  HAL_GPIO_WritePin(GPIOA, EN1_Pin, GPIO_PIN_SET);
-			  HAL_GPIO_WritePin(GPIOA, EN2_Pin, GPIO_PIN_RESET);
-			  HAL_GPIO_WritePin(GPIOA, EN3_Pin, GPIO_PIN_SET);
-			  status = 3;
-			  break;
-		  case 3:
-			  HAL_GPIO_WritePin(GPIOA, EN0_Pin, GPIO_PIN_SET);
-			  HAL_GPIO_WritePin(GPIOA, EN1_Pin, GPIO_PIN_SET);
-			  HAL_GPIO_WritePin(GPIOA, EN2_Pin, GPIO_PIN_SET);
-			  HAL_GPIO_WritePin(GPIOA, EN3_Pin, GPIO_PIN_RESET);
-			  status = 0;
-			  break;
-		  default:
-			  break;
-		  }
-		  display7SEG(status); //display status of LED7SEG
-		  counter_trans++;
-		  if (counter_trans > 3) counter_trans = 0;
-		  setTimer2(50);
-	  }
+
+
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
@@ -380,8 +327,71 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
+int timer1_counter = 100; //set counter for timer1
+int timer2_counter = 50; //set counter for timer2
+int trans_counter = 0;  //set counter for transistor
+int status;
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
-	timerRun();
+	if(timer1_counter > 0){
+		timer1_counter--;
+		if(timer1_counter <= 0){
+			timer1_counter = 100;
+			 //TODO
+			/*set GPIO for DOT
+			 *set DOT turn on 1s -> counter of timer is 100
+			 */
+			HAL_GPIO_TogglePin(GPIOA, DOT_Pin);
+		}
+	}
+	if(timer2_counter > 0){
+		timer2_counter--;
+		if(timer2_counter <= 0){
+			timer2_counter = 50;
+			//TODO
+			/*set GPIO for transistor
+		     *counter_trans = 1 -> LED7SEG1 turn on
+		     *counter_trans = 2 -> LED7SEG2 turn on
+		     *counter_trans = 3 -> LED7SEG3 turn on
+		     *counter_trans = 4 -> LED7SEG4 turn on
+		     *set a LED7SEG turn on on 500ns -> counter of timer = 50
+		     */
+			switch(trans_counter){
+			  case 0:
+				  HAL_GPIO_WritePin(GPIOA, EN0_Pin, GPIO_PIN_RESET);
+				  HAL_GPIO_WritePin(GPIOA, EN1_Pin, GPIO_PIN_SET);
+				  HAL_GPIO_WritePin(GPIOA, EN2_Pin, GPIO_PIN_SET);
+				  HAL_GPIO_WritePin(GPIOA, EN3_Pin, GPIO_PIN_SET);
+				  status = 1;
+				  break;
+			  case 1:
+				  HAL_GPIO_WritePin(GPIOA, EN0_Pin, GPIO_PIN_SET);
+				  HAL_GPIO_WritePin(GPIOA, EN1_Pin, GPIO_PIN_RESET);
+				  HAL_GPIO_WritePin(GPIOA, EN2_Pin, GPIO_PIN_SET);
+				  HAL_GPIO_WritePin(GPIOA, EN3_Pin, GPIO_PIN_SET);
+				  status = 2;
+				  break;
+			  case 2:
+				  HAL_GPIO_WritePin(GPIOA, EN0_Pin, GPIO_PIN_SET);
+				  HAL_GPIO_WritePin(GPIOA, EN1_Pin, GPIO_PIN_SET);
+				  HAL_GPIO_WritePin(GPIOA, EN2_Pin, GPIO_PIN_RESET);
+				  HAL_GPIO_WritePin(GPIOA, EN3_Pin, GPIO_PIN_SET);
+				  status = 3;
+				  break;
+			  case 3:
+				  HAL_GPIO_WritePin(GPIOA, EN0_Pin, GPIO_PIN_SET);
+				  HAL_GPIO_WritePin(GPIOA, EN1_Pin, GPIO_PIN_SET);
+				  HAL_GPIO_WritePin(GPIOA, EN2_Pin, GPIO_PIN_SET);
+				  HAL_GPIO_WritePin(GPIOA, EN3_Pin, GPIO_PIN_RESET);
+				  status = 0;
+				  break;
+			  default:
+				  break;
+		  }
+		  display7SEG(status); //display status of LED7SEG
+		  trans_counter++;
+		  if (trans_counter > 3) trans_counter = 0;
+		}
+	}
 }
 /* USER CODE END 4 */
 
