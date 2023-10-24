@@ -22,7 +22,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "S_Timer.h"
+#include "S_Timer.h" //call library of timer
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -94,26 +94,36 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  setTimer1(50);
-  int status;
-  int counter = 0;
+  //call timer with T = 10ns
+  setTimer1(50); //set a timer for 2 LED7SEG with T = 500ns
+  int status; /*Status of LED7SEG:
+   	   	   	   status = 1 -> display number 1
+   	   	   	   status = 2 -> display number 2*/
+  int counter = 0; // counter of status
   while (1)
   {
+	  /* USER CODE END WHILE */
 	  if(timer1_flag == 1){
-		 HAL_GPIO_TogglePin(GPIOA, LED_RED_Pin);
-		 if (counter % 2 == 0){
+
+		 HAL_GPIO_TogglePin(GPIOA, LED_RED_Pin); //set GPIO for LED_RED
+
+		 //change to status of 2 transistor
+		 if (counter % 2 == 0){ // counter is even number
+			 //set LED7SEG1 display 1
 			 HAL_GPIO_WritePin(GPIOA, EN0_Pin, GPIO_PIN_RESET);
 			 HAL_GPIO_WritePin(GPIOA, EN1_Pin, GPIO_PIN_SET);
 			 status = 1;
 		 }
-		 else{
+		 else{ // counter id odd number
+			 //set LED7SEG2 display 2
 			 HAL_GPIO_WritePin(GPIOA, EN0_Pin, GPIO_PIN_SET);
 			 HAL_GPIO_WritePin(GPIOA, EN1_Pin, GPIO_PIN_RESET);
 			 status = 2;
 		 }
 		 counter++;
-		 switch(status){
-		 case 1:
+
+		 switch(status){ //GPIO set led of LED7SEG
+		 case 1: //set display 1
 			 HAL_GPIO_WritePin(GPIOB, SEG0_Pin, GPIO_PIN_SET);
 			 HAL_GPIO_WritePin(GPIOB, SEG1_Pin, GPIO_PIN_RESET);
 			 HAL_GPIO_WritePin(GPIOB, SEG2_Pin, GPIO_PIN_RESET);
@@ -122,7 +132,7 @@ int main(void)
 			 HAL_GPIO_WritePin(GPIOB, SEG5_Pin, GPIO_PIN_SET);
 			 HAL_GPIO_WritePin(GPIOB, SEG6_Pin, GPIO_PIN_SET);
 			 break;
-		 case 2:
+		 case 2: //set display 2
 			 HAL_GPIO_WritePin(GPIOB, SEG0_Pin, GPIO_PIN_RESET);
 			 HAL_GPIO_WritePin(GPIOB, SEG1_Pin, GPIO_PIN_RESET);
 			 HAL_GPIO_WritePin(GPIOB, SEG2_Pin, GPIO_PIN_SET);
@@ -132,9 +142,8 @@ int main(void)
 			 HAL_GPIO_WritePin(GPIOB, SEG6_Pin, GPIO_PIN_RESET);
 			 break;
 		 }
-		 setTimer1(50);
+		 setTimer1(50); // return call setTimer1 with T = 500ns
 	  }
-    /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
   }
