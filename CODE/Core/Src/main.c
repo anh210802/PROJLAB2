@@ -59,6 +59,7 @@ static void MX_TIM2_Init(void);
 const int MAX_LED_MATRIX = 8;
 int index_led_matrix = 0;
 uint8_t matrix_buffer [8] = {0xFF,0x80,0x00,0x33,0x33,0x00,0x80,0xFF};
+int counter_to_left = 0;
 void clearLEDMatrix(){
 	HAL_GPIO_WritePin(GPIOA, ENM0_Pin|ENM1_Pin|ENM2_Pin|ENM3_Pin|ENM4_Pin|ENM5_Pin|ENM6_Pin|ENM7_Pin,GPIO_PIN_SET);
     HAL_GPIO_WritePin(GPIOB, ROW0_Pin|ROW1_Pin|ROW2_Pin|ROW3_Pin|ROW4_Pin|ROW5_Pin|ROW6_Pin|ROW7_Pin, GPIO_PIN_SET);
@@ -107,7 +108,7 @@ void displayRowLEDMatrix(uint8_t status){
 }
 void updateLEDMatrix(int index){
 	for(int i = 0; i < 8; i++){
-		if(i == index){
+		if(i == index - counter_to_left){
 			switch(i){
 				case 0:
 					HAL_GPIO_WritePin(GPIOA, ENM0_Pin, GPIO_PIN_RESET);
@@ -185,7 +186,7 @@ int main(void)
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   setTimer1(1);
-  setTimer2(100);
+  setTimer2(50);
   while (1)
   {
     /* USER CODE END WHILE */
@@ -196,8 +197,9 @@ int main(void)
 		  setTimer1(1);
 	  }
 	  if(timer2_flag == 1){
-		  index_led_matrix--;
-		  setTimer2(100);
+		  counter_to_left++;
+		  if(counter_to_left > 8) counter_to_left = -7;
+		  setTimer2(50);
 	  }
     /* USER CODE BEGIN 3 */
   }
