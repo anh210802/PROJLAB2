@@ -22,7 +22,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "S_Timer.h" //call library of timer
+
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -95,55 +95,9 @@ int main(void)
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   //call timer with T = 10ns
-  setTimer1(50); //set a timer for 2 LED7SEG with T = 500ns
-  int status; /*Status of LED7SEG:
-   	   	   	   status = 1 -> display number 1
-   	   	   	   status = 2 -> display number 2*/
-  int counter = 0; // counter of status
   while (1)
   {
 	  /* USER CODE END WHILE */
-	  if(timer1_flag == 1){
-
-		 HAL_GPIO_TogglePin(GPIOA, LED_RED_Pin); //set GPIO for LED_RED
-
-		 //change to status of 2 transistor
-		 if (counter % 2 == 0){ // counter is even number
-			 //set LED7SEG1 display 1
-			 HAL_GPIO_WritePin(GPIOA, EN0_Pin, GPIO_PIN_RESET);
-			 HAL_GPIO_WritePin(GPIOA, EN1_Pin, GPIO_PIN_SET);
-			 status = 1;
-		 }
-		 else{ // counter id odd number
-			 //set LED7SEG2 display 2
-			 HAL_GPIO_WritePin(GPIOA, EN0_Pin, GPIO_PIN_SET);
-			 HAL_GPIO_WritePin(GPIOA, EN1_Pin, GPIO_PIN_RESET);
-			 status = 2;
-		 }
-		 counter++;
-
-		 switch(status){ //GPIO set led of LED7SEG
-		 case 1: //set display 1
-			 HAL_GPIO_WritePin(GPIOB, SEG0_Pin, GPIO_PIN_SET);
-			 HAL_GPIO_WritePin(GPIOB, SEG1_Pin, GPIO_PIN_RESET);
-			 HAL_GPIO_WritePin(GPIOB, SEG2_Pin, GPIO_PIN_RESET);
-			 HAL_GPIO_WritePin(GPIOB, SEG3_Pin, GPIO_PIN_SET);
-			 HAL_GPIO_WritePin(GPIOB, SEG4_Pin, GPIO_PIN_SET);
-			 HAL_GPIO_WritePin(GPIOB, SEG5_Pin, GPIO_PIN_SET);
-			 HAL_GPIO_WritePin(GPIOB, SEG6_Pin, GPIO_PIN_SET);
-			 break;
-		 case 2: //set display 2
-			 HAL_GPIO_WritePin(GPIOB, SEG0_Pin, GPIO_PIN_RESET);
-			 HAL_GPIO_WritePin(GPIOB, SEG1_Pin, GPIO_PIN_RESET);
-			 HAL_GPIO_WritePin(GPIOB, SEG2_Pin, GPIO_PIN_SET);
-			 HAL_GPIO_WritePin(GPIOB, SEG3_Pin, GPIO_PIN_RESET);
-			 HAL_GPIO_WritePin(GPIOB, SEG4_Pin, GPIO_PIN_RESET);
-			 HAL_GPIO_WritePin(GPIOB, SEG5_Pin, GPIO_PIN_SET);
-			 HAL_GPIO_WritePin(GPIOB, SEG6_Pin, GPIO_PIN_RESET);
-			 break;
-		 }
-		 setTimer1(50); // return call setTimer1 with T = 500ns
-	  }
 
     /* USER CODE BEGIN 3 */
   }
@@ -269,8 +223,54 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
+int status; /*Status of LED7SEG:
+ 	   	   	   status = 1 -> display number 1
+ 	   	   	   status = 2 -> display number 2*/
+int trans_counter = 0; // set counter of status
+int timer_counter = 50; // set counter of timer
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
-	timerRun();
+	if(timer_counter > 0){
+		timer_counter--;
+		if(timer_counter <= 0){
+			timer_counter = 50;
+			HAL_GPIO_TogglePin(GPIOA, LED_RED_Pin); //set GPIO for LED_RED
+			if (trans_counter == 0){ // counter is even number
+				 //set LED7SEG1 display 1
+				 HAL_GPIO_WritePin(GPIOA, EN0_Pin, GPIO_PIN_RESET);
+				 HAL_GPIO_WritePin(GPIOA, EN1_Pin, GPIO_PIN_SET);
+				 status = 1;
+			 }else{ // counter id odd number
+				 //set LED7SEG2 display 2
+				 HAL_GPIO_WritePin(GPIOA, EN0_Pin, GPIO_PIN_SET);
+				 HAL_GPIO_WritePin(GPIOA, EN1_Pin, GPIO_PIN_RESET);
+				 status = 2;
+			 }
+			 trans_counter++;
+			 if(trans_counter > 1) trans_counter = 0;
+			 switch(status){ //GPIO set led of LED7SEG
+			 case 1: //set display 1
+				 HAL_GPIO_WritePin(GPIOB, SEG0_Pin, GPIO_PIN_SET);
+				 HAL_GPIO_WritePin(GPIOB, SEG1_Pin, GPIO_PIN_RESET);
+				 HAL_GPIO_WritePin(GPIOB, SEG2_Pin, GPIO_PIN_RESET);
+				 HAL_GPIO_WritePin(GPIOB, SEG3_Pin, GPIO_PIN_SET);
+				 HAL_GPIO_WritePin(GPIOB, SEG4_Pin, GPIO_PIN_SET);
+				 HAL_GPIO_WritePin(GPIOB, SEG5_Pin, GPIO_PIN_SET);
+				 HAL_GPIO_WritePin(GPIOB, SEG6_Pin, GPIO_PIN_SET);
+				 break;
+			 case 2: //set display 2
+				 HAL_GPIO_WritePin(GPIOB, SEG0_Pin, GPIO_PIN_RESET);
+				 HAL_GPIO_WritePin(GPIOB, SEG1_Pin, GPIO_PIN_RESET);
+				 HAL_GPIO_WritePin(GPIOB, SEG2_Pin, GPIO_PIN_SET);
+				 HAL_GPIO_WritePin(GPIOB, SEG3_Pin, GPIO_PIN_RESET);
+				 HAL_GPIO_WritePin(GPIOB, SEG4_Pin, GPIO_PIN_RESET);
+				 HAL_GPIO_WritePin(GPIOB, SEG5_Pin, GPIO_PIN_SET);
+				 HAL_GPIO_WritePin(GPIOB, SEG6_Pin, GPIO_PIN_RESET);
+				 break;
+			 default:
+				 break;
+			 }
+		}
+	}
 }
 /* USER CODE END 4 */
 
