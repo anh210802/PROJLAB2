@@ -56,12 +56,14 @@ static void MX_GPIO_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-const int MAX_LED = 4;
+const int MAX_LED = 4; //Number of LED7SEG
 int index_led = 0;
-int led_buffer[4] = {1, 2, 3, 4};
+int led_buffer[4] = {1, 2, 3, 4}; // Array of 4 integer numbers are declared in this case
+
+/*set display status of LED7SEG*/
 void display7SEG(int status){
 	switch(status){
-		case 0:
+		case 0: //display number 0
 			HAL_GPIO_WritePin(GPIOB, SEG0_Pin, GPIO_PIN_RESET);
 			HAL_GPIO_WritePin(GPIOB, SEG1_Pin, GPIO_PIN_RESET);
 			HAL_GPIO_WritePin(GPIOB, SEG2_Pin, GPIO_PIN_RESET);
@@ -70,7 +72,7 @@ void display7SEG(int status){
 			HAL_GPIO_WritePin(GPIOB, SEG5_Pin, GPIO_PIN_RESET);
 			HAL_GPIO_WritePin(GPIOB, SEG6_Pin, GPIO_PIN_SET);
 			break;
-		case 1:
+		case 1: //display number 1
 			HAL_GPIO_WritePin(GPIOB, SEG0_Pin, GPIO_PIN_SET);
 			HAL_GPIO_WritePin(GPIOB, SEG1_Pin, GPIO_PIN_RESET);
 			HAL_GPIO_WritePin(GPIOB, SEG2_Pin, GPIO_PIN_RESET);
@@ -79,7 +81,7 @@ void display7SEG(int status){
 			HAL_GPIO_WritePin(GPIOB, SEG5_Pin, GPIO_PIN_SET);
 			HAL_GPIO_WritePin(GPIOB, SEG6_Pin, GPIO_PIN_SET);
 			break;
-		case 2:
+		case 2: //display number 2
 			HAL_GPIO_WritePin(GPIOB, SEG0_Pin, GPIO_PIN_RESET);
 			HAL_GPIO_WritePin(GPIOB, SEG1_Pin, GPIO_PIN_RESET);
 			HAL_GPIO_WritePin(GPIOB, SEG2_Pin, GPIO_PIN_SET);
@@ -88,7 +90,7 @@ void display7SEG(int status){
 			HAL_GPIO_WritePin(GPIOB, SEG5_Pin, GPIO_PIN_SET);
 			HAL_GPIO_WritePin(GPIOB, SEG6_Pin, GPIO_PIN_RESET);
 			break;
-		case 3:
+		case 3: //display number 3
 			HAL_GPIO_WritePin(GPIOB, SEG0_Pin, GPIO_PIN_RESET);
 			HAL_GPIO_WritePin(GPIOB, SEG1_Pin, GPIO_PIN_RESET);
 			HAL_GPIO_WritePin(GPIOB, SEG2_Pin, GPIO_PIN_RESET);
@@ -97,7 +99,7 @@ void display7SEG(int status){
 			HAL_GPIO_WritePin(GPIOB, SEG5_Pin, GPIO_PIN_SET);
 			HAL_GPIO_WritePin(GPIOB, SEG6_Pin, GPIO_PIN_RESET);
 			break;
-		case 4:
+		case 4: //display number 4
 			HAL_GPIO_WritePin(GPIOB, SEG0_Pin, GPIO_PIN_SET);
 			HAL_GPIO_WritePin(GPIOB, SEG1_Pin, GPIO_PIN_RESET);
 			HAL_GPIO_WritePin(GPIOB, SEG2_Pin, GPIO_PIN_RESET);
@@ -106,7 +108,7 @@ void display7SEG(int status){
 			HAL_GPIO_WritePin(GPIOB, SEG5_Pin, GPIO_PIN_RESET);
 			HAL_GPIO_WritePin(GPIOB, SEG6_Pin, GPIO_PIN_RESET);
 			break;
-		case 5:
+		case 5: //display number 5
 			HAL_GPIO_WritePin(GPIOB, SEG0_Pin, GPIO_PIN_RESET);
 			HAL_GPIO_WritePin(GPIOB, SEG1_Pin, GPIO_PIN_SET);
 			HAL_GPIO_WritePin(GPIOB, SEG2_Pin, GPIO_PIN_RESET);
@@ -115,7 +117,7 @@ void display7SEG(int status){
 			HAL_GPIO_WritePin(GPIOB, SEG5_Pin, GPIO_PIN_RESET);
 			HAL_GPIO_WritePin(GPIOB, SEG6_Pin, GPIO_PIN_RESET);
 			break;
-		case 6:
+		case 6: //display number 6
 			HAL_GPIO_WritePin(GPIOB, SEG0_Pin, GPIO_PIN_RESET);
 			HAL_GPIO_WritePin(GPIOB, SEG1_Pin, GPIO_PIN_SET);
 			HAL_GPIO_WritePin(GPIOB, SEG2_Pin, GPIO_PIN_RESET);
@@ -124,7 +126,7 @@ void display7SEG(int status){
 			HAL_GPIO_WritePin(GPIOB, SEG5_Pin, GPIO_PIN_RESET);
 			HAL_GPIO_WritePin(GPIOB, SEG6_Pin, GPIO_PIN_RESET);
 			break;
-		case 7:
+		case 7: //display number 7
 			HAL_GPIO_WritePin(GPIOB, SEG0_Pin, GPIO_PIN_RESET);
 			HAL_GPIO_WritePin(GPIOB, SEG1_Pin, GPIO_PIN_RESET);
 			HAL_GPIO_WritePin(GPIOB, SEG2_Pin, GPIO_PIN_RESET);
@@ -133,7 +135,7 @@ void display7SEG(int status){
 			HAL_GPIO_WritePin(GPIOB, SEG5_Pin, GPIO_PIN_SET);
 			HAL_GPIO_WritePin(GPIOB, SEG6_Pin, GPIO_PIN_SET);
 			break;
-		case 8:
+		case 8: //display number 8
 			HAL_GPIO_WritePin(GPIOB, SEG0_Pin, GPIO_PIN_RESET);
 			HAL_GPIO_WritePin(GPIOB, SEG1_Pin, GPIO_PIN_RESET);
 			HAL_GPIO_WritePin(GPIOB, SEG2_Pin, GPIO_PIN_RESET);
@@ -142,7 +144,7 @@ void display7SEG(int status){
 			HAL_GPIO_WritePin(GPIOB, SEG5_Pin, GPIO_PIN_RESET);
 			HAL_GPIO_WritePin(GPIOB, SEG6_Pin, GPIO_PIN_RESET);
 			break;
-		case 9:
+		case 9: //display number 9
 			HAL_GPIO_WritePin(GPIOB, SEG0_Pin, GPIO_PIN_RESET);
 			HAL_GPIO_WritePin(GPIOB, SEG1_Pin, GPIO_PIN_RESET);
 			HAL_GPIO_WritePin(GPIOB, SEG2_Pin, GPIO_PIN_RESET);
@@ -153,6 +155,12 @@ void display7SEG(int status){
 			break;
 		}
 }
+/*set status and GPIO of transistor
+ * index = 0 -> transistor0 turn on and display number led_buffer[0]
+ * index = 1 -> transistor1 turn on and display number led_buffer[1]
+ * index = 2 -> transistor2 turn on and display number led_buffer[2]
+ * index = 3 -> transistor3 turn on and display number led_buffer[3]
+ */
 void update7SEG(int index){
 	switch(index){
 	  case 0:
@@ -224,16 +232,19 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  setTimer1(100);
-  setTimer2(50);
+  setTimer1(100); // set timer1 have T = 10ns and counter = 100
+  setTimer2(50); //set timer2 have T = 10ns and counter = 50
   while (1)
   {
     /* USER CODE END WHILE */
+	  /*set GPIO for DOT
+	   * T of DOT is 1s*/
 	  if(timer1_flag == 1){
 		  HAL_GPIO_TogglePin(GPIOA, DOT_Pin);
 		  HAL_GPIO_TogglePin(GPIOA, LED_RED_Pin);
 		  setTimer1(100);
 	  }
+	  /*T of transistors is 500ns*/
 	  if(timer2_flag == 1){
 		  update7SEG(index_led++);
 		  if(index_led > 3) index_led = 0;
