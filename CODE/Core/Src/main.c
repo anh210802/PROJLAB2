@@ -18,16 +18,16 @@
   */
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
+
 #include "main.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "S_Timer.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
-
+#include "software_timer.h"
 /* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/
@@ -58,11 +58,15 @@ static void MX_TIM2_Init(void);
 /* USER CODE BEGIN 0 */
 const int MAX_LED_MATRIX = 8;
 int index_led_matrix = 0;
-uint8_t matrix_buffer [8] = {0xFF,0x80,0x00,0x33,0x33,0x00,0x80,0xFF};
+uint8_t matrix_buffer [8] = {0xFF,0x80,0x00,0x33,0x33,0x00,0x80,0xFF}; // scan "A"
+
+/*turn off all led*/
 void clearLEDMatrix(){
 	HAL_GPIO_WritePin(GPIOA, ENM0_Pin|ENM1_Pin|ENM2_Pin|ENM3_Pin|ENM4_Pin|ENM5_Pin|ENM6_Pin|ENM7_Pin,GPIO_PIN_SET);
     HAL_GPIO_WritePin(GPIOB, ROW0_Pin|ROW1_Pin|ROW2_Pin|ROW3_Pin|ROW4_Pin|ROW5_Pin|ROW6_Pin|ROW7_Pin, GPIO_PIN_SET);
 }
+
+/*set display ROW */
 void setROW(int n){
 	switch(n){
 	case 1:
@@ -91,20 +95,26 @@ void setROW(int n){
 		break;
 	}
 }
+
+/* set display status of ROW */
 void displayRowLEDMatrix(uint8_t status){
 	int arr[8] = {1, 2, 4, 8, 16, 32, 64, 128};
-	uint8_t a;
+	uint8_t set_status;
 	for(int i = 7; i >= 0; i--){
 		if(status % 2 == 1){
-			a = 1;
+			set_status = 1;
 		}
 		else{
-			a = 0;
+			set_status = 0;
 		}
-		if(a == 0) setROW(arr[i]);
+		if(set_status == 0) setROW(arr[i]); // if status is 0, led of ROW turn on
 		status = status >> 1;
 		}
 }
+
+/* set display led matrix
+ * sran LEDs by column
+ */
 void updateLEDMatrix(int index){
 	switch(index){
 	case 0:
@@ -185,6 +195,7 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
+	  /* f of a column is 125*/
 	  if(timer1_flag == 1){
 		  clearLEDMatrix();
 		  updateLEDMatrix(index_led_matrix);
