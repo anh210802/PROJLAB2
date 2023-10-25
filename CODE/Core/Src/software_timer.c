@@ -4,7 +4,7 @@
  *  Created on: Oct 11, 2023
  *      Author: anhxa
  */
-#include "S_Timer.h"
+#include "software_timer.h"
 
 int timer1_counter = 0;
 int timer1_flag = 0;
