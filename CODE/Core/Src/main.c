@@ -18,11 +18,12 @@
   */
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
+
 #include "main.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "S_Timer.h"
+#include "software_timer.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -58,12 +59,16 @@ static void MX_TIM2_Init(void);
 /* USER CODE BEGIN 0 */
 const int MAX_LED_MATRIX = 8;
 int index_led_matrix = 0;
-uint8_t matrix_buffer [8] = {0xFF,0x80,0x00,0x33,0x33,0x00,0x80,0xFF};
-int counter_to_left = 0;
+uint8_t matrix_buffer [8] = {0xFF,0x80,0x00,0x33,0x33,0x00,0x80,0xFF}; // Scan "A"
+int counter_to_left = 0; //Create a descending variable
+
+/*turn off all led*/
 void clearLEDMatrix(){
 	HAL_GPIO_WritePin(GPIOA, ENM0_Pin|ENM1_Pin|ENM2_Pin|ENM3_Pin|ENM4_Pin|ENM5_Pin|ENM6_Pin|ENM7_Pin,GPIO_PIN_SET);
     HAL_GPIO_WritePin(GPIOB, ROW0_Pin|ROW1_Pin|ROW2_Pin|ROW3_Pin|ROW4_Pin|ROW5_Pin|ROW6_Pin|ROW7_Pin, GPIO_PIN_SET);
 }
+
+/* Set display ROW */
 void setROW(int n){
 	switch(n){
 	case 1:
@@ -92,6 +97,8 @@ void setROW(int n){
 		break;
 	}
 }
+
+/* Set display status of ROW */
 void displayRowLEDMatrix(uint8_t status){
 	int arr[8] = {1, 2, 4, 8, 16, 32, 64, 128};
 	uint8_t a;
@@ -106,6 +113,12 @@ void displayRowLEDMatrix(uint8_t status){
 		status = status >> 1;
 		}
 }
+
+/* Set display led matrix
+ * Sran LEDs by column
+ * She character is shifted to the left by decrease "index"
+ * counter_to_left Helps the LEDs of the columns move to the left
+ */
 void updateLEDMatrix(int index){
 	for(int i = 0; i < 8; i++){
 		if(i == index - counter_to_left){
@@ -196,10 +209,11 @@ int main(void)
 		  if(index_led_matrix > 7) index_led_matrix = 0;
 		  setTimer1(1);
 	  }
+	  /* The character is shifted to the left comes to an end and appears on the right */
 	  if(timer2_flag == 1){
 		  counter_to_left++;
 		  if(counter_to_left > 8) counter_to_left = -7;
-		  setTimer2(50);
+		  setTimer2(50); //set speed move to left
 	  }
     /* USER CODE BEGIN 3 */
   }
